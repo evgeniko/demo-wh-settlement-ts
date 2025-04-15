@@ -1,0 +1,19 @@
+{
+  "name": "demo-liquidity-layer",
+  "version": "1.0.0",
+  "description": "Demo implementation of Wormhole's liquidity layer",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "ts-node src/fastMarketOrder.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.13.13",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.11.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
