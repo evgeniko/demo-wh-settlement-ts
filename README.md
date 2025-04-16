@@ -24,9 +24,16 @@ npm install
 PRIVATE_KEY=your_private_key_here
 ```
 
-2. The configuration for different chains and contracts can be found in `src/fastMarketOrder.ts`. Currently configured for:
-- Arbitrum Sepolia (Chain ID: 10003)
-- Optimism Sepolia (Chain ID: 10005)
+2. Update the chain configurations in `src/fastMarketOrder.ts`:
+   - Find the complete list of Wormhole chain IDs at: https://docs.wormhole.com/wormhole/blockchain-environments/evm
+   - Current example uses:
+     - Arbitrum Sepolia (Wormhole Chain ID: 10003)
+     - Optimism Sepolia (Wormhole Chain ID: 10005)
+   - Update the RPC URLs and token router addresses as needed
+
+3. Adjust the transfer amount in `src/fastMarketOrder.ts`:
+   - Testnet: Minimum 10 USDC
+   - Mainnet: Minimum 100 USDC
 
 ## Usage
 
@@ -39,27 +46,40 @@ npm start
 This will:
 1. Check and approve USDC allowance if needed
 2. Place a fast market order with the following parameters:
-   - Amount: 101 USDC (minimum amount required)
-   - Max Fee: 0.1 USDC
+   - Amount: 10 USDC (minimum amount required on testnet)
+   - Max Fee: Dynamically calculated based on contract parameters
    - Deadline: 1 hour from transaction time
 
 ## Important Notes
 
-- The minimum transfer amount is 100 USDC (as defined in the contract)
-- Make sure you have sufficient USDC balance on Arbitrum Sepolia
+- The minimum transfer amount is 10 USDC on testnet (100 USDC on mainnet)
+- Make sure you have sufficient USDC balance on the source chain
 - The example uses testnet configurations and USDC addresses
 - Current USDC address on Arbitrum Sepolia: `0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d`
 - Current Token Router address on Arbitrum Sepolia: `0xe0418C44F06B0b0D7D1706E01706316DBB0B210E`
 
 ## Troubleshooting
 
-If you encounter errors:
-1. Check your USDC balance
-2. Verify the private key in `.env`
-3. Ensure you're using the correct chain IDs and contract addresses
-4. Check if the minimum amount requirement is met (100 USDC)
+### Common Errors
+
+1. **Insufficient USDC Balance**
+   - Error: "Insufficient USDC balance"
+   - Solution: Ensure you have sufficient USDC on the source chain
+
+2. **Insufficient Allowance**
+   - Error: Transaction fails with "insufficient allowance"
+   - Solution: The script will automatically approve the required amount
+
+3. **Invalid Max Fee**
+   - Error: Transaction fails with "invalid max fee"
+   - Solution: The script automatically calculates the correct fee based on contract parameters
+
+4. **Chain Configuration**
+   - Error: "Target chain is not configured in the contract"
+   - Solution: Verify you're using the correct Wormhole chain IDs from the documentation
 
 ## References
 
+- [Wormhole Chain IDs](https://docs.wormhole.com/wormhole/blockchain-environments/evm)
 - [Wormhole Dashboard Constants](https://github.com/wormhole-foundation/wormhole-dashboard/blob/main/watcher/src/fastTransfer/consts.ts)
-- [Circle USDC Testnet Addresses](https://developers.circle.com/stablecoins/usdc-on-test-networks) 
+- [Circle USDC Testnet Addresses](https://developers.circle.com/stablecoins/usdc-on-test-networks)
